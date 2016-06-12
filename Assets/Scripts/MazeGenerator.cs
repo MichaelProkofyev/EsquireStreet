@@ -7,7 +7,8 @@ using System.Collections;
 using System.Collections.Generic;
 public class MazeGenerator : MonoBehaviour {
     public int width, height;
-    public Material wallMat, floorMat, finishMat;
+    public Material wallMat, floorMat, ceilingMat, finishMat;
+	public bool showCeiling = true;
 	public int scale = 1;
     private int[,] Maze;
     private List<Vector3> pathMazes = new List<Vector3>();
@@ -91,6 +92,15 @@ public class MazeGenerator : MonoBehaviour {
                
                     if (wallMat != null)  { ptype.GetComponent<Renderer>().material = floorMat; }
                     ptype.transform.parent = transform;
+
+					if (showCeiling) {
+						ptype = GameObject.CreatePrimitive(PrimitiveType.Cube);
+						ptype.transform.localScale = new Vector3(scale, scale, scale);
+						ptype.transform.position = new Vector3(i * ptype.transform.localScale.x, 3, j * ptype.transform.localScale.z);
+				
+						if (ceilingMat != null)  { ptype.GetComponent<Renderer>().material = ceilingMat; }
+						ptype.transform.parent = transform;
+					}
 
 
 
