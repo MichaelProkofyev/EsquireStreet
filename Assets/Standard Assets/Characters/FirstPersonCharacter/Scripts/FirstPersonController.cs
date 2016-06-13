@@ -10,10 +10,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof (AudioSource))]
     public class FirstPersonController : MonoBehaviour
     {
-        private bool m_TurningLeft = false;
-        private bool m_TurningRight = false;
-        private float m_TurnCoolDown = 1f/3000f;
-        private float m_CurrCoolDown = 0f;
         [SerializeField] private Transform m_FPSCharacter;
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private bool m_CanJump;
@@ -247,24 +243,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             if (m_MouseLookEnabled) {
                 m_MouseLook.LookRotation (transform, m_Camera.transform);
-            }
-
-            //ROTATION WITH KEYS
-            // m_TurningLeft = Input.GetKey(KeyCode.LeftArrow);
-            m_TurningLeft = Input.GetAxisRaw("Horizontal") == -1;
-            m_TurningRight = Input.GetAxisRaw("Horizontal") == 1;
-            
-            if (m_CurrCoolDown <= 0 && (m_TurningLeft || m_TurningRight) ) {
-                if (m_TurningLeft) {
-                    m_TurningLeft= false;
-                    transform.Rotate(Vector3.up * -3f);
-                }else if (m_TurningRight) {
-                    m_TurningRight = false;
-                    transform.Rotate(Vector3.up * 3f);
-                }
-                m_CurrCoolDown = m_TurnCoolDown;
-            }else {
-                m_CurrCoolDown -= Time.deltaTime;
+            }else if (Input.GetAxisRaw("Horizontal") == -1) {
+                transform.Rotate(Vector3.up * Time.deltaTime * -120f);
+            }else if (Input.GetAxisRaw("Horizontal") == 1) {
+                transform.Rotate(Vector3.up * Time.deltaTime * 120f);
             }
 
         }
