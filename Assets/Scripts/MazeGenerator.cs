@@ -7,9 +7,10 @@ using System.Collections;
 using System.Collections.Generic;
 public class MazeGenerator : MonoBehaviour {
     public int width, height;
-    public Transform headUITransform;
+    public Transform headUITransform, walls, sky;
+    public StartUIController startUICOntroller;
     public GameObject finishObject;
-    public Material wallMat, floorMat, ceilingMat;
+    public Material wallMat, floorMat;
 	public bool showCeiling = true;
 	public int scale = 1;
     private int[,] Maze;
@@ -73,17 +74,17 @@ public class MazeGenerator : MonoBehaviour {
 					if (shouldCreateExit) {
 						exitCreated = true;
 						// finishObject.transform.localScale = new Vector3(scale, scale, scale * 2);
-						finishObject.transform.position = new Vector3(i * finishObject.transform.localScale.x, 0, j * scale + (finishObject.transform.localScale.z - scale)/2);
-				
-						finishObject.transform.parent = transform;
+						finishObject.transform.position = new Vector3(i * finishObject.transform.localScale.x, -4, j * scale + (finishObject.transform.localScale.z - scale)/2);
+						finishObject.transform.parent = walls;
+
 						j++;
 					}else {
 						ptype = GameObject.CreatePrimitive(PrimitiveType.Cube);
 						ptype.transform.localScale = new Vector3(scale, scale, scale);
-						ptype.transform.position = new Vector3(i * ptype.transform.localScale.x, 0, j * ptype.transform.localScale.z);
+						ptype.transform.position = new Vector3(i * ptype.transform.localScale.x, -4, j * ptype.transform.localScale.z);
 				
 						if (wallMat != null)  { ptype.GetComponent<Renderer>().material = wallMat; }
-						ptype.transform.parent = transform;
+						ptype.transform.parent = walls;
 					}
                 }
                 else if (Maze[i, j] == 0) {
@@ -99,29 +100,29 @@ public class MazeGenerator : MonoBehaviour {
                     if (wallMat != null)  { ptype.GetComponent<Renderer>().material = floorMat; }
                     ptype.transform.parent = transform;
 
-					if (showCeiling) {
-						ptype = GameObject.CreatePrimitive(PrimitiveType.Cube);
-						ptype.transform.localScale = new Vector3(scale, scale, scale);
-						ptype.transform.position = new Vector3(i * ptype.transform.localScale.x, 3, j * ptype.transform.localScale.z);
+					// if (showCeiling) {
+					// 	ptype = GameObject.CreatePrimitive(PrimitiveType.Cube);
+					// 	ptype.transform.localScale = new Vector3(scale, scale, scale);
+					// 	ptype.transform.position = new Vector3(i * ptype.transform.localScale.x, 3, j * ptype.transform.localScale.z);
 				
-						if (ceilingMat != null)  { ptype.GetComponent<Renderer>().material = ceilingMat; }
-						ptype.transform.parent = transform;
-					}
+					// 	if (ceilingMat != null)  { ptype.GetComponent<Renderer>().material = ceilingMat; }
+					// 	ptype.transform.parent = transform;
+					// }
 
 
 
 					//PUT PLAYER INSIDE
 					if (!putPlayerInPlace && i == 1 ) {
-						playerTransform.position  =  new Vector3(i * scale, 0, j * scale);
+						playerTransform.position  =  new Vector3(i * scale, -1.02f, j * scale);
 
                         foreach (var offset in offsets) {
                             if (Maze[(int)(i + offset.x), (int)(j + offset.y)] == 0) {
 
-                                playerTransform.LookAt(new Vector3((i + offset.x) * scale, 0, (j + offset.y) * scale));
+                                playerTransform.LookAt(new Vector3((i + offset.x) * scale, -1.02f, (j + offset.y) * scale));
                                 headUITransform.position = new Vector3((i + offset.x) * scale, -4, (j + offset.y) * scale);
                                 headUITransform.rotation = playerTransform.rotation;
-                                Debug.Log("Player " + playerTransform.rotation.eulerAngles);
-                                Debug.Log("Head " + headUITransform.rotation.eulerAngles);
+                                // Debug.Log("Player " + playerTransform.rotation.eulerAngles);
+                                // Debug.Log("Head " + headUITransform.rotation.eulerAngles);
                                 break;
                             }
                         }
@@ -136,7 +137,9 @@ public class MazeGenerator : MonoBehaviour {
             }
             MazeString=MazeString+"\n";  // added to create String
         }
-        uiController.FinishedLoading();
+        sky.transform.localScale = new Vector3(width*scale * 3, 1, height * scale * 3);
+        sky.transform.position = new Vector3(0,3, 0);
+        startUICOntroller.finishedLoading = true;
         print (MazeString);  // added to create String
     }
 

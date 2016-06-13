@@ -12,7 +12,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     {
         private bool m_TurningLeft = false;
         private bool m_TurningRight = false;
-        private float m_TurnCoolDown = 0.05f;
+        private float m_TurnCoolDown = 1f/3000f;
         private float m_CurrCoolDown = 0f;
         [SerializeField] private Transform m_FPSCharacter;
         [SerializeField] private bool m_IsWalking;
@@ -211,7 +211,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void GetInput(out float speed)
         {
             // Read input
-            float horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
+            float horizontal = 0; CrossPlatformInputManager.GetAxis("Horizontal");
             float vertical = CrossPlatformInputManager.GetAxis("Vertical");
 
             bool waswalking = m_IsWalking;
@@ -250,16 +250,17 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             //ROTATION WITH KEYS
-            m_TurningLeft = Input.GetKey(KeyCode.LeftArrow);
-            m_TurningRight = Input.GetKey(KeyCode.RightArrow);
+            // m_TurningLeft = Input.GetKey(KeyCode.LeftArrow);
+            m_TurningLeft = Input.GetAxisRaw("Horizontal") == -1;
+            m_TurningRight = Input.GetAxisRaw("Horizontal") == 1;
             
             if (m_CurrCoolDown <= 0 && (m_TurningLeft || m_TurningRight) ) {
                 if (m_TurningLeft) {
                     m_TurningLeft= false;
-                    transform.Rotate(Vector3.up * -10f);
+                    transform.Rotate(Vector3.up * -3f);
                 }else if (m_TurningRight) {
                     m_TurningRight = false;
-                    transform.Rotate(Vector3.up * 10f);
+                    transform.Rotate(Vector3.up * 3f);
                 }
                 m_CurrCoolDown = m_TurnCoolDown;
             }else {

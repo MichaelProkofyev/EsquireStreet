@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ExitController : MonoBehaviour {
 
@@ -17,5 +17,7 @@ public class ExitController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
         uiController.StartFadeToWhite();
+		SceneManager.LoadScene(0);
+		
     }
 }
