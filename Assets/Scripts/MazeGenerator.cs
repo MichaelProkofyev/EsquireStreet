@@ -7,7 +7,8 @@ using System.Collections;
 using System.Collections.Generic;
 public class MazeGenerator : MonoBehaviour {
     public int width, height;
-    public Material wallMat, floorMat, ceilingMat, finishMat;
+    public GameObject finishObject;
+    public Material wallMat, floorMat, ceilingMat;
 	public bool showCeiling = true;
 	public int scale = 1;
     private int[,] Maze;
@@ -18,6 +19,8 @@ public class MazeGenerator : MonoBehaviour {
     private int _width, _height;
     private Vector2 _currentTile;
     public String MazeString;
+
+    public UIController uiController;
 
 	private bool putPlayerInPlace = false;
 	private bool putFinishRight = false;
@@ -64,12 +67,10 @@ public class MazeGenerator : MonoBehaviour {
 					bool shouldCreateExit = !exitCreated && i == Maze.GetUpperBound(0) && CanPutExitHere(i, j) && CanPutExitHere(i, j+1);
 					if (shouldCreateExit) {
 						exitCreated = true;
-						ptype = GameObject.CreatePrimitive(PrimitiveType.Cube);
-						ptype.transform.localScale = new Vector3(scale, scale, scale * 2);
-						ptype.transform.position = new Vector3(i * ptype.transform.localScale.x, 0, j * scale + (ptype.transform.localScale.z - scale)/2);
+						// finishObject.transform.localScale = new Vector3(scale, scale, scale * 2);
+						finishObject.transform.position = new Vector3(i * finishObject.transform.localScale.x, 0, j * scale + (finishObject.transform.localScale.z - scale)/2);
 				
-						if (finishMat != null)  { ptype.GetComponent<Renderer>().material = finishMat; }
-						ptype.transform.parent = transform;
+						finishObject.transform.parent = transform;
 						j++;
 					}else {
 						ptype = GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -88,7 +89,7 @@ public class MazeGenerator : MonoBehaviour {
 
 					ptype = GameObject.CreatePrimitive(PrimitiveType.Cube);
 					ptype.transform.localScale = new Vector3(scale, scale, scale);
-                    ptype.transform.position = new Vector3(i * ptype.transform.localScale.x, -3, j * ptype.transform.localScale.z);
+                    ptype.transform.position = new Vector3(i * ptype.transform.localScale.x, -4, j * ptype.transform.localScale.z);
                
                     if (wallMat != null)  { ptype.GetComponent<Renderer>().material = floorMat; }
                     ptype.transform.parent = transform;
@@ -114,7 +115,7 @@ public class MazeGenerator : MonoBehaviour {
             }
             MazeString=MazeString+"\n";  // added to create String
         }
-
+        uiController.FinishedLoading();
         print (MazeString);  // added to create String
     }
 
