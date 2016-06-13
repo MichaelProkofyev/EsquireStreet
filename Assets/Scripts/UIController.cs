@@ -5,17 +5,20 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour {
 
 	public Text loadingText;
-	public Image loadingImage;
+	public Image loadingImage, headImage;
 	float fadeToWhiteSpeed = 6f;
 
 	private bool fadingToClear = false;
 	private bool fadingToWhite = false;
+	private bool movingHead = false;
+	private bool fadingHead = false;
 
 
 	public void FinishedLoading() {
 		loadingText.gameObject.SetActive(false);
 		fadingToClear = true;
 		// StartFadeToWhite();
+		movingHead = true;
 	}
 
 	public void StartFadeToWhite() {
@@ -29,6 +32,23 @@ public class UIController : MonoBehaviour {
 	}
 	
 	void Update () {
+
+		if (movingHead) {
+			headImage.color = Color.Lerp(headImage.color, Color.white, Time.deltaTime * 2.5f);
+			headImage.rectTransform.localPosition = Vector3.up * Mathf.Lerp(headImage.rectTransform.localPosition.y, 0, Time.deltaTime);
+			if (-5 <= headImage.rectTransform.localPosition.y) {
+				movingHead = false;
+				fadingHead = true;
+			}
+		}else if(fadingHead) {
+			headImage.color = Color.Lerp(headImage.color, Color.clear, Time.deltaTime * 5f);
+			if (headImage.color.a <= 0.01f) {
+				fadingHead = false;
+				Destroy(headImage);
+			}
+		}
+
+
 		if (fadingToClear) {
 			loadingImage.color = Color.Lerp(loadingImage.color, Color.clear, Time.deltaTime/2.5f);
 			if (loadingImage.color.a <= 0.01f) {
