@@ -34,9 +34,9 @@ public class UIController : MonoBehaviour {
 	void Update () {
 
 		if (movingHead) {
-			headImage.color = Color.Lerp(headImage.color, Color.white, Time.deltaTime * 2.5f);
-			headImage.rectTransform.localPosition = Vector3.up * Mathf.Lerp(headImage.rectTransform.localPosition.y, 0, Time.deltaTime);
-			if (-5 <= headImage.rectTransform.localPosition.y) {
+			headImage.color = Color.Lerp(headImage.color, Color.white, Time.deltaTime);
+			headImage.rectTransform.localPosition = Vector3.up * Mathf.Lerp(headImage.rectTransform.localPosition.y, 4, Time.deltaTime);
+			if (3.9f <= headImage.rectTransform.localPosition.y) {
 				movingHead = false;
 				fadingHead = true;
 			}

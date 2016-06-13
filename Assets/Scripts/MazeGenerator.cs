@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 public class MazeGenerator : MonoBehaviour {
     public int width, height;
+    public Transform headUITransform;
     public GameObject finishObject;
     public Material wallMat, floorMat, ceilingMat;
 	public bool showCeiling = true;
@@ -117,6 +118,10 @@ public class MazeGenerator : MonoBehaviour {
                             if (Maze[(int)(i + offset.x), (int)(j + offset.y)] == 0) {
 
                                 playerTransform.LookAt(new Vector3((i + offset.x) * scale, 0, (j + offset.y) * scale));
+                                headUITransform.position = new Vector3((i + offset.x) * scale, -4, (j + offset.y) * scale);
+                                headUITransform.rotation = playerTransform.rotation;
+                                Debug.Log("Player " + playerTransform.rotation.eulerAngles);
+                                Debug.Log("Head " + headUITransform.rotation.eulerAngles);
                                 break;
                             }
                         }
