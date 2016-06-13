@@ -58,6 +58,10 @@ public class MazeGenerator : MonoBehaviour {
         CurrentTile = Vector2.one;
         _tiletoTry.Push(CurrentTile);
         Maze = CreateMaze();  // generate the maze in Maze Array.
+
+        // Maze = new int[4,4]{ {1,1,1,1},{1,0,1,1},{1,0,0,1},{1,1,1,1} };
+
+
         GameObject ptype = null;
         for (int i = 0; i <= Maze.GetUpperBound(0); i++)  {
             for (int j = 0; j <= Maze.GetUpperBound(1); j++) {
@@ -108,7 +112,19 @@ public class MazeGenerator : MonoBehaviour {
 					//PUT PLAYER INSIDE
 					if (!putPlayerInPlace && i == 1 ) {
 						playerTransform.position  =  new Vector3(i * scale, 0, j * scale);
+
+                        foreach (var offset in offsets) {
+                            if (Maze[(int)(i + offset.x), (int)(j + offset.y)] == 0) {
+
+                                playerTransform.LookAt(new Vector3((i + offset.x) * scale, 0, (j + offset.y) * scale));
+                                break;
+                            }
+                        }
+
+
 						putPlayerInPlace = true;
+                        
+
 						putFinishRight = i < width / 2; // MOVE FINISH AS FAR FROM PLAYA AS POSSIBLE
 					}
                 }
