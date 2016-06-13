@@ -8,7 +8,6 @@ using System.Collections.Generic;
 public class MazeGenerator : MonoBehaviour {
     public int width, height;
     public Transform headUITransform, walls, sky;
-    public StartUIController startUICOntroller;
     public GameObject finishObject;
     public Material wallMat, floorMat;
 	public bool showCeiling = true;
@@ -153,7 +152,7 @@ public class MazeGenerator : MonoBehaviour {
         }
         sky.transform.localScale = new Vector3(width*scale * 3, 1, height * scale * 3);
         sky.transform.position = new Vector3(0,3, 0);
-        startUICOntroller.finishedLoading = true;
+        uiController.ShowStartButton();
         print (MazeString);  // added to create String
     }
 

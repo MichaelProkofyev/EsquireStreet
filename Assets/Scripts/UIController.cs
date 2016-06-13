@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour {
 
 	public Text loadingText;
 	public Image loadingImage, headImage;
+	public GameObject startButton, restartButton;
 	public Transform walls;
 	public UnityStandardAssets.Characters.FirstPerson.FirstPersonController fpsController;
 	float fadeToWhiteSpeed = 6f;
@@ -16,12 +18,24 @@ public class UIController : MonoBehaviour {
 	private bool fadingHead = false;
 
 
-	public void StartAnimation() {
+	public void ShowStartButton() {
+		startButton.SetActive(true);
+	}
+
+	public void ShowRestartButton() {
+		restartButton.SetActive(true);
+	}
+
+	public void StartTheGame() {
+		startButton.SetActive(false);
 		loadingText.gameObject.SetActive(false);
 		fadingToClear = true;
 		// StartFadeToWhite();
 		movingHead = true;
 		movingWalls = true;
+	}
+	public void Restart () {
+		SceneManager.LoadScene(0);
 	}
 
 	public void StartFadeToWhite() {
