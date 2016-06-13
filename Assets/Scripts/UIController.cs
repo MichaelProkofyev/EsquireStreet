@@ -6,7 +6,7 @@ public class UIController : MonoBehaviour {
 
 	public Text loadingText;
 	public Image loadingImage;
-	float fadeToWhiteSpeed = 3f;
+	float fadeToWhiteSpeed = 6f;
 
 	private bool fadingToClear = false;
 	private bool fadingToWhite = false;

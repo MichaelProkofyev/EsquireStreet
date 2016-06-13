@@ -10,7 +10,14 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof (AudioSource))]
     public class FirstPersonController : MonoBehaviour
     {
+        private bool m_TurningLeft = false;
+        private bool m_TurningRight = false;
+        private float m_TurnCoolDown = 0.05f;
+        private float m_CurrCoolDown = 0f;
+        [SerializeField] private Transform m_FPSCharacter;
         [SerializeField] private bool m_IsWalking;
+        [SerializeField] private bool m_CanJump;
+        [SerializeField] private bool m_MouseLookEnabled;
         [SerializeField] private float m_WalkSpeed;
         [SerializeField] private float m_RunSpeed;
         [SerializeField] [Range(0f, 1f)] private float m_RunstepLenghten;
@@ -63,7 +70,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         {
             RotateView();
             // the jump state needs to read here to make sure it is not missed
-            if (!m_Jump)
+            if (!m_Jump && m_CanJump)
             {
                 m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
             }
@@ -236,7 +243,29 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void RotateView()
         {
-            m_MouseLook.LookRotation (transform, m_Camera.transform);
+
+
+            if (m_MouseLookEnabled) {
+                m_MouseLook.LookRotation (transform, m_Camera.transform);
+            }
+
+            //ROTATION WITH KEYS
+            m_TurningLeft = Input.GetKey(KeyCode.LeftArrow);
+            m_TurningRight = Input.GetKey(KeyCode.RightArrow);
+            
+            if (m_CurrCoolDown <= 0 && (m_TurningLeft || m_TurningRight) ) {
+                if (m_TurningLeft) {
+                    m_TurningLeft= false;
+                    transform.Rotate(Vector3.up * -10f);
+                }else if (m_TurningRight) {
+                    m_TurningRight = false;
+                    transform.Rotate(Vector3.up * 10f);
+                }
+                m_CurrCoolDown = m_TurnCoolDown;
+            }else {
+                m_CurrCoolDown -= Time.deltaTime;
+            }
+
         }
 
 
