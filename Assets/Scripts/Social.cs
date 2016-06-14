@@ -23,7 +23,7 @@ public class Social : MonoBehaviour {
 
 			FB.FeedShare(
 			link: new System.Uri("http://esquire.ru/mystreet3D"),
-			linkName: string.Format("Вы прошли «Мою улицу» всего за {0}:{1}", Mathf.FloorToInt(gameController.time), (int)((gameController.time - (int)gameController.time) * 100)),
+			linkName: string.Format("Вы прошли «Мою улицу» всего за " + gameController.timeString),
 			linkCaption: "esquire.ru/mystreet3D",
 			linkDescription: "Выберитесь из перекопанной Москвы в игре Esquire",
 			picture: new System.Uri("http://i.imgur.com/FhPbOm5.png"),
@@ -45,7 +45,7 @@ public class Social : MonoBehaviour {
 
 			FB.FeedShare(
 			link: new System.Uri("http://esquire.ru/mystreet3D"),
-			linkName: string.Format("Вы прошли «Мою улицу» всего за {0}:{1}", Mathf.FloorToInt(gameController.time), (int)((gameController.time - (int)gameController.time) * 100)),
+			linkName: string.Format("Вы прошли «Мою улицу» всего за " + gameController.timeString),
 			linkCaption: "esquire.ru/mystreet3D",
 			linkDescription: "Выберитесь из перекопанной Москвы в игре Esquire",
 			picture: new System.Uri("http://i.imgur.com/FhPbOm5.png"),

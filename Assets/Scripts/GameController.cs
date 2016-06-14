@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class GameController : MonoBehaviour {
 
@@ -16,8 +17,9 @@ public class GameController : MonoBehaviour {
 	private bool fadingToWhite = false;
 	private bool movingHead = false;
 	private bool fadingHead = false;
-	public float time = 0;
-	private bool countingTime = false;
+	public DateTime dateStarted;
+	public TimeSpan timeSpent;
+	public string timeString;
 
 
 	public void ShowStartPanel() {
@@ -29,7 +31,7 @@ public class GameController : MonoBehaviour {
 		wallMenuBackground.SetActive(true);
 		finishPanel.SetActive(true);
 		finishTimeText.gameObject.SetActive(true);
-		countingTime = false;
+		timeSpent = DateTime.Now.Subtract(dateStarted);
 // 		string.Format("IsLoggedIn='{0}' IsInitialized='{1}'",
 // 		var floatNumber = 12.5523;
 // var x = floatNumber - Math.Truncate(floatNumber);
@@ -37,7 +39,11 @@ public class GameController : MonoBehaviour {
 		nfi.NumberDecimalSeparator = ":";
 		// nfi.NumberDecimalDigits = 2;
 		// nfi.number
-		finishTimeText.text = string.Format("Поздравляем!\nВы прошли «Мою улицу»\nза " + time.ToString("F2", nfi));
+		
+		// int milliseconds = Convert.ToInt32(Mathf.FloorToInt((float)timeSpent.TotalMilliseconds).ToString().Substring(0, 2));
+		// int millmilliiseconds = Convert.ToInt32(Mathf.FloorToInt((float)timeSpent.TotalMilliseconds).ToString().Substring(2, 4));
+		timeString = string.Format("{0}:{1}", Mathf.FloorToInt((float)timeSpent.TotalMinutes), Mathf.FloorToInt((float)timeSpent.TotalSeconds));
+		finishTimeText.text = "Поздравляем!\nВы прошли «Мою улицу»\nза " + timeString;
 	}
 
 	public void StartTheGame() {
@@ -59,14 +65,10 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		time = 0;
 	}
 	
 	void Update () {
 
-		if (countingTime) {
-			time += Time.deltaTime;
-		}
 
 		if (movingHead) {
 			headImage.color = Color.Lerp(headImage.color, Color.white, Time.deltaTime);
@@ -75,7 +77,7 @@ public class GameController : MonoBehaviour {
 				movingHead = false;
 				fadingHead = true;
 				fpsController.enabled = true;
-				countingTime = true;
+				dateStarted = DateTime.Now;
 			}
 		}else if(fadingHead) {
 			headImage.color = Color.Lerp(headImage.color, Color.clear, Time.deltaTime * 5f);

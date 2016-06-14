@@ -1,8 +1,8 @@
-using System;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -12,7 +12,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     {
         [SerializeField] private Transform m_FPSCharacter;
         [SerializeField] private bool m_IsWalking;
-        [SerializeField] private bool m_CanJump;
+        public bool m_CanJump;
         [SerializeField] private bool m_MouseLookEnabled;
         [SerializeField] private float m_WalkSpeed;
         [SerializeField] private float m_RunSpeed;
@@ -64,6 +64,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Update is called once per frame
         private void Update()
         {
+
+            if (transform.position.y < -20f) {
+                SceneManager.LoadScene(0);
+            }
+
             RotateView();
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump && m_CanJump)
