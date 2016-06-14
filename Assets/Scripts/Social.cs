@@ -13,10 +13,22 @@ public class Social : MonoBehaviour {
 
 	// bool uploadImageSuccess = false;
 	// string uploadedImgUrl;
+	public GameController gameController;
 
 	public void ShareScreenShot () {
 		if (!FB.IsInitialized) {
 			FB.Init(this.OnInitComplete);	
+		}else {
+		
+
+			FB.FeedShare(
+			link: new System.Uri("http://esquire.ru/mystreet3D"),
+			linkName: string.Format("Вы прошли «Мою улицу» всего за {0}:{1}", Mathf.FloorToInt(gameController.time), (int)((gameController.time - (int)gameController.time) * 100)),
+			linkCaption: "esquire.ru/mystreet3D",
+			linkDescription: "Выберитесь из перекопанной Москвы в игре Esquire",
+			picture: new System.Uri("http://i.imgur.com/FhPbOm5.png"),
+			callback: null
+			);
 		}
 		// else {
 		// 	StartCoroutine(AppScreenshotUpload());		
@@ -31,14 +43,14 @@ public class Social : MonoBehaviour {
             Debug.Log("FB " + string.Format("IsLoggedIn='{0}' IsInitialized='{1}'", FB.IsLoggedIn, FB.IsInitialized));
 			// StartCoroutine(AppScreenshotUpload());
 
-			// FB.FeedShare(
-			// link: new System.Uri("https://esquire.ru/"),
-			// linkName: "LINK NAME",
-			// linkCaption: "CAPTION",
-			// linkDescription: "DESCRIPTION",
-			// picture: new System.Uri("http://imgur.com/" + "5L8Y9v6"),
-			// callback: null
-			// );   
+			FB.FeedShare(
+			link: new System.Uri("http://esquire.ru/mystreet3D"),
+			linkName: string.Format("Вы прошли «Мою улицу» всего за {0}:{1}", Mathf.FloorToInt(gameController.time), (int)((gameController.time - (int)gameController.time) * 100)),
+			linkCaption: "esquire.ru/mystreet3D",
+			linkDescription: "Выберитесь из перекопанной Москвы в игре Esquire",
+			picture: new System.Uri("http://i.imgur.com/FhPbOm5.png"),
+			callback: null
+			);   
 
 			// FB.ShareLink(
 			// 	new System.Uri("https://esquire.ru/"),

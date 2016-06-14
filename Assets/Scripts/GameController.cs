@@ -16,7 +16,7 @@ public class GameController : MonoBehaviour {
 	private bool fadingToWhite = false;
 	private bool movingHead = false;
 	private bool fadingHead = false;
-	private float time = 0;
+	public float time = 0;
 	private bool countingTime = false;
 
 
@@ -29,10 +29,15 @@ public class GameController : MonoBehaviour {
 		wallMenuBackground.SetActive(true);
 		finishPanel.SetActive(true);
 		finishTimeText.gameObject.SetActive(true);
+		countingTime = false;
 // 		string.Format("IsLoggedIn='{0}' IsInitialized='{1}'",
 // 		var floatNumber = 12.5523;
 // var x = floatNumber - Math.Truncate(floatNumber);
-		finishTimeText.text = "Поздравляем!\nВы прошли «Мою улицу»\nза " + time.ToString("F2");
+		System.Globalization.NumberFormatInfo nfi = new System.Globalization.NumberFormatInfo();
+		nfi.NumberDecimalSeparator = ":";
+		// nfi.NumberDecimalDigits = 2;
+		// nfi.number
+		finishTimeText.text = string.Format("Поздравляем!\nВы прошли «Мою улицу»\nза " + time.ToString("F2", nfi));
 	}
 
 	public void StartTheGame() {
@@ -54,7 +59,7 @@ public class GameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		time = 0;
 	}
 	
 	void Update () {
