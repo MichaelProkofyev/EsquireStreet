@@ -2,11 +2,11 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class UIController : MonoBehaviour {
+public class GameController : MonoBehaviour {
 
-	public Text loadingText;
-	public Image loadingImage, headImage;
-	public GameObject startButton, restartButton;
+	public Text finishTimeText;
+	public Image whiteFadeImage, headImage;
+	public GameObject startPanel, finishPanel, wallMenuBackground;
 	public Transform walls;
 	public UnityStandardAssets.Characters.FirstPerson.FirstPersonController fpsController;
 	float fadeToWhiteSpeed = 6f;
@@ -16,19 +16,25 @@ public class UIController : MonoBehaviour {
 	private bool fadingToWhite = false;
 	private bool movingHead = false;
 	private bool fadingHead = false;
+	private float time = 0;
+	private bool countingTime = false;
 
 
-	public void ShowStartButton() {
-		startButton.SetActive(true);
+	public void ShowStartPanel() {
+		wallMenuBackground.SetActive(true);
+		startPanel.SetActive(true);
 	}
 
-	public void ShowRestartButton() {
-		restartButton.SetActive(true);
+	public void ShowFinishPanel() {
+		wallMenuBackground.SetActive(true);
+		finishPanel.SetActive(true);
+		finishTimeText.gameObject.SetActive(true);
+		finishTimeText.text = "Поздравляем!\nВы прошли «Мою улицу»\nза " + time.ToString("F2");
 	}
 
 	public void StartTheGame() {
-		startButton.SetActive(false);
-		loadingText.gameObject.SetActive(false);
+		wallMenuBackground.SetActive(false);
+		startPanel.SetActive(false);
 		fadingToClear = true;
 		// StartFadeToWhite();
 		movingHead = true;
@@ -40,7 +46,7 @@ public class UIController : MonoBehaviour {
 
 	public void StartFadeToWhite() {
 		fadingToWhite = true;
-		loadingImage.color = new Color(1f, 1f, 1f, 0f);	
+		whiteFadeImage.color = new Color(1f, 1f, 1f, 0f);	
 	}
 
 	// Use this for initialization
@@ -50,6 +56,10 @@ public class UIController : MonoBehaviour {
 	
 	void Update () {
 
+		if (countingTime) {
+			time += Time.deltaTime;
+		}
+
 		if (movingHead) {
 			headImage.color = Color.Lerp(headImage.color, Color.white, Time.deltaTime);
 			headImage.rectTransform.localPosition = Vector3.up * Mathf.Lerp(headImage.rectTransform.localPosition.y, 3.5f, Time.deltaTime);
@@ -57,6 +67,7 @@ public class UIController : MonoBehaviour {
 				movingHead = false;
 				fadingHead = true;
 				fpsController.enabled = true;
+				countingTime = true;
 			}
 		}else if(fadingHead) {
 			headImage.color = Color.Lerp(headImage.color, Color.clear, Time.deltaTime * 5f);
@@ -75,16 +86,16 @@ public class UIController : MonoBehaviour {
 
 
 		if (fadingToClear) {
-			loadingImage.color = Color.Lerp(loadingImage.color, Color.clear, Time.deltaTime);
-			if (loadingImage.color.a <= 0.01f) {
+			whiteFadeImage.color = Color.Lerp(whiteFadeImage.color, Color.clear, Time.deltaTime);
+			if (whiteFadeImage.color.a <= 0.01f) {
 				fadingToClear = false;
-				loadingImage.color = Color.clear;
+				whiteFadeImage.color = Color.clear;
 			}
 		}else if (fadingToWhite) {
-			loadingImage.color = Color.Lerp(loadingImage.color, Color.white, Time.deltaTime * fadeToWhiteSpeed);
-			if (0.99f <= loadingImage.color.a) {
+			whiteFadeImage.color = Color.Lerp(whiteFadeImage.color, Color.white, Time.deltaTime * fadeToWhiteSpeed);
+			if (0.99f <= whiteFadeImage.color.a) {
 				fadingToWhite = false;
-				loadingImage.color = Color.white;
+				whiteFadeImage.color = Color.white;
 			}
 		} 
 	}

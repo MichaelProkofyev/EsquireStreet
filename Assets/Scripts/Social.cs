@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Facebook.Unity;
+using System;
+using System.Text;
 
 
 public class Social : MonoBehaviour {
@@ -9,13 +11,14 @@ public class Social : MonoBehaviour {
 	public void ShareScreenShot () {
 		if (!FB.IsInitialized) {
 			FB.Init(this.OnInitComplete);
-		}else {
-			if (!FB.IsLoggedIn) {
-				FB.LogInWithReadPermissions(new List<string>() { "public_profile", "email", "user_friends", "publish_actions" }, this.HandleResult);
-			}else {
-				StartCoroutine(ShareImageShot());
-			}
 		}
+		// else {
+		// 	if (!FB.IsLoggedIn) {
+		// 		FB.LogInWithReadPermissions(new List<string>() { "public_profile", "email", "user_friends", "publish_actions" }, this.HandleResult);
+		// 	}else {
+		// 		StartCoroutine(ShareImageShot());
+		// 	}
+		// }
 	}
 
 	private void OnInitComplete()
@@ -27,19 +30,8 @@ public class Social : MonoBehaviour {
                 FB.IsLoggedIn,
                 FB.IsInitialized);
             Debug.Log("FB " + logMessage);
-			FB.LogInWithReadPermissions(new List<string>() { "public_profile", "email", "user_friends", "publish_actions" }, this.HandleResult);
+			StartCoroutine(ShareImageShot());
         }
-	private void HandleResult(IResult result) {
-            // Debug.Log("FB LOGIN RESULT " + result.RawResult);
-			if (result.Cancelled) {
-				Debug.Log("FB LOGIN FAILED");
-			}else {
-				Debug.Log("FB LOGIN SUCCESS");
-				StartCoroutine(ShareImageShot());
-
-			}
-	}
-
 
 	IEnumerator ShareImageShot() {
  
@@ -52,11 +44,25 @@ public class Social : MonoBehaviour {
 		tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
 		tex.Apply();
 		byte[] screenshot = tex.EncodeToPNG();
+		string encodedText = Convert.ToBase64String (screenshot);
 
-		var wwwForm = new WWWForm();
-		wwwForm.AddBinaryData("image", screenshot, "Screenshot.png");
+		FB.FeedShare(
+				link: new System.Uri("https://esquire.ru/"),
+				linkName: "The Larch",
+				linkCaption: "I thought up a witty tagline about larches",
+				linkDescription: "There are a lot of larch trees around here, aren't there?",
+				picture: new System.Uri( "data:image/png;base64," + Convert.ToBase64String( screenshot ) ),
+				callback: null
+		);
 
-		FB.API("me/photos", HttpMethod.POST, null, wwwForm);
+
+		// var wwwForm = new WWWForm();
+		// wwwForm.AddBinaryData("image", screenshot, "Screenshot.png");
+		// wwwForm.AddField("og:title", "http://www.esquire.ru/");
+
+
+
+		// FB.API("me/photos", HttpMethod.POST, null, wwwForm);
  
      }
 

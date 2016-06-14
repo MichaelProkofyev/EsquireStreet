@@ -20,7 +20,7 @@ public class MazeGenerator : MonoBehaviour {
     private Vector2 _currentTile;
     public String MazeString;
 
-    public UIController uiController;
+    public GameController uiController;
 
 	private bool exitCreated = false;
 
@@ -131,10 +131,11 @@ public class MazeGenerator : MonoBehaviour {
             }
         }
 
-
-        sky.transform.localScale = new Vector3(width*scale * 3, 1, height * scale * 3);
-        sky.transform.position = new Vector3(0,3, 0);
-        uiController.ShowStartButton();
+        if (showCeiling) {
+            sky.transform.localScale = new Vector3(width*scale * 3, 1, height * scale * 3);
+            sky.transform.position = new Vector3(0,3, 0);
+        }
+        uiController.ShowStartPanel();
         print (MazeString);  // added to create String
     }
 

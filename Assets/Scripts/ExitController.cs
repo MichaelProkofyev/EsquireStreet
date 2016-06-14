@@ -2,7 +2,7 @@
 
 public class ExitController : MonoBehaviour {
 
-	public UIController uiController;
+	public GameController uiController;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +16,7 @@ public class ExitController : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
         uiController.StartFadeToWhite();
-		uiController.ShowRestartButton();
+		uiController.ShowFinishPanel();
 		
     }
 }
