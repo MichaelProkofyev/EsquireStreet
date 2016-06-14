@@ -29,6 +29,9 @@ public class GameController : MonoBehaviour {
 		wallMenuBackground.SetActive(true);
 		finishPanel.SetActive(true);
 		finishTimeText.gameObject.SetActive(true);
+// 		string.Format("IsLoggedIn='{0}' IsInitialized='{1}'",
+// 		var floatNumber = 12.5523;
+// var x = floatNumber - Math.Truncate(floatNumber);
 		finishTimeText.text = "Поздравляем!\nВы прошли «Мою улицу»\nза " + time.ToString("F2");
 	}
 

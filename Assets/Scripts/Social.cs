@@ -1,69 +1,114 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+// using System.Collections.Generic;
+// using System.Collections;
 using Facebook.Unity;
-using System;
-using System.Text;
+// using System;
+// using System.Net;
+// using System.Xml.Linq;
+//  using System.IO;
 
 
 public class Social : MonoBehaviour {
 
+
+	// bool uploadImageSuccess = false;
+	// string uploadedImgUrl;
+
 	public void ShareScreenShot () {
 		if (!FB.IsInitialized) {
-			FB.Init(this.OnInitComplete);
+			FB.Init(this.OnInitComplete);	
 		}
 		// else {
-		// 	if (!FB.IsLoggedIn) {
-		// 		FB.LogInWithReadPermissions(new List<string>() { "public_profile", "email", "user_friends", "publish_actions" }, this.HandleResult);
-		// 	}else {
-		// 		StartCoroutine(ShareImageShot());
-		// 	}
+		// 	StartCoroutine(AppScreenshotUpload());		
 		// }
+
 	}
 
 	private void OnInitComplete()
         {
             // this.Status = "Success - Check log for details";
             // this.LastResponse = "Success Response: OnInitComplete Called\n";
-            string logMessage = string.Format(
-                "OnInitCompleteCalled IsLoggedIn='{0}' IsInitialized='{1}'",
-                FB.IsLoggedIn,
-                FB.IsInitialized);
-            Debug.Log("FB " + logMessage);
-			StartCoroutine(ShareImageShot());
+            Debug.Log("FB " + string.Format("IsLoggedIn='{0}' IsInitialized='{1}'", FB.IsLoggedIn, FB.IsInitialized));
+			// StartCoroutine(AppScreenshotUpload());
+
+			// FB.FeedShare(
+			// link: new System.Uri("https://esquire.ru/"),
+			// linkName: "LINK NAME",
+			// linkCaption: "CAPTION",
+			// linkDescription: "DESCRIPTION",
+			// picture: new System.Uri("http://imgur.com/" + "5L8Y9v6"),
+			// callback: null
+			// );   
+
+			// FB.ShareLink(
+			// 	new System.Uri("https://esquire.ru/"),
+			// 	"CONTENT TITLE",
+			// 	"DESCRIPTION",
+			// 	new System.Uri("http://imgur.com/" + "5L8Y9v6")
+				
+			// );
         }
 
-	IEnumerator ShareImageShot() {
+
+// IEnumerator AppScreenshotUpload()
+//      {
+//          yield return new WaitForEndOfFrame();
+
+// 		var width = Screen.width;
+// 		var height = Screen.height;
+// 		var tex = new Texture2D(width, height, TextureFormat.RGB24, false);
+// 		// Read screen contents into the texture
+// 		tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+// 		tex.Apply();
+// 		byte[] rawImage = tex.EncodeToPNG();
  
-		yield return new WaitForEndOfFrame();
-
-		var width = Screen.width;
-		var height = Screen.height;
-		var tex = new Texture2D(width, height, TextureFormat.RGB24, false);
-		// Read screen contents into the texture
-		tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-		tex.Apply();
-		byte[] screenshot = tex.EncodeToPNG();
-		string encodedText = Convert.ToBase64String (screenshot);
-
-		FB.FeedShare(
-				link: new System.Uri("https://esquire.ru/"),
-				linkName: "The Larch",
-				linkCaption: "I thought up a witty tagline about larches",
-				linkDescription: "There are a lot of larch trees around here, aren't there?",
-				picture: new System.Uri( "data:image/png;base64," + Convert.ToBase64String( screenshot ) ),
-				callback: null
-		);
+//          //Before we try uploading it to Imgur we need a Server Certificate Validation Callback
+//         //  ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
 
 
-		// var wwwForm = new WWWForm();
-		// wwwForm.AddBinaryData("image", screenshot, "Screenshot.png");
-		// wwwForm.AddField("og:title", "http://www.esquire.ru/");
+// 		var wwwForm = new WWWForm();
+// 		wwwForm.AddBinaryData("image", rawImage, "Screenshot.png");
+// 		wwwForm.AddField("type", "base64" );
+// 		// Dictionary<string,string> headers = wwwForm.headers;
+// 		// headers["Authorization"] = "Client-ID " + "5a8a9f1a6e3f7ac";
+// 		wwwForm.headers.Add("Authorization", "Client-ID " + "5a8a9f1a6e3f7ac");
+
+// 		WWW www = new WWW("https://api.imgur.com/3/image.xml", wwwForm);
+// 		yield return www;
+
+// 		// Debug.Log(www.bytes);
+// 		// FB.API("me/photos", HttpMethod.POST, null, wwwForm);
 
 
-
-		// FB.API("me/photos", HttpMethod.POST, null, wwwForm);
+     
+//         //  using (var w = new WebClient())
+//         //  {
+//         //     //  w.Headers.Add("Authorization", "Client-ID " + "5a8a9f1a6e3f7ac");
+//         //     //  var values = new System.Collections.Specialized.NameValueCollection
+//         //     //  {
+//         //     //      { "image", Convert.ToBase64String(rawImage) },
+//         //     //      { "type", "base64" },
+//         //     //  };
  
-     }
+//         //     //  byte[] response = w.UploadValues("https://api.imgur.com/3/image.xml", values);
+//  			 XDocument xdoc = XDocument.Load(new MemoryStream(www.bytes));
+// 			//  foreach (var item in xdoc.Descendants("id")) {
+// 			// 	uploadedImgUrl = item.Value; 
+// 			// 	uploadImageSuccess = true;
+// 			// 	Debug.Log("IMGUR IMG: " + uploadedImgUrl);
+// 			//  }
+
+// 			//  if (uploadImageSuccess && FB.IsInitialized) {
+// 				// FB.FeedShare(
+// 				// link: new System.Uri("https://esquire.ru/"),
+// 				// linkName: "НАЗВАНИЕ ССЫЛКИ",
+// 				// linkCaption: "ЗАГОЛОВОК ССЫЛКИ",
+// 				// linkDescription: "ОПИСАНИЕ",
+// 				// picture: new System.Uri("http://imgur.com/" + uploadedImgUrl),
+// 				// callback: null
+// 				// );}   
+//              Debug.Log(xdoc.Descendants("id").ToString());
+//         ////  }
+//      }
 
 }
