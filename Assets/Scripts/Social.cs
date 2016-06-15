@@ -48,7 +48,7 @@ public class Social : MonoBehaviour {
 			linkName: string.Format("Вы прошли «Мою улицу» всего за " + gameController.timeString),
 			linkCaption: "esquire.ru/mystreet3D",
 			linkDescription: "Выберитесь из перекопанной Москвы в игре Esquire",
-			picture: new System.Uri("http://i.imgur.com/FhPbOm5.png"),
+			picture: new System.Uri("http://i.imgur.com/c1dcAI1.png"),
 			callback: null
 			);   
 

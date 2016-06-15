@@ -42,8 +42,8 @@ public class GameController : MonoBehaviour {
 		
 		// int milliseconds = Convert.ToInt32(Mathf.FloorToInt((float)timeSpent.TotalMilliseconds).ToString().Substring(0, 2));
 		// int millmilliiseconds = Convert.ToInt32(Mathf.FloorToInt((float)timeSpent.TotalMilliseconds).ToString().Substring(2, 4));
-		timeString = string.Format("{0}:{1}", Mathf.FloorToInt((float)timeSpent.TotalMinutes), Mathf.FloorToInt((float)timeSpent.TotalSeconds));
-		finishTimeText.text = "Поздравляем!\nВы прошли «Мою улицу»\nза " + timeString;
+		timeString = string.Format("{0}:{1}:{2}", Mathf.FloorToInt((float)timeSpent.TotalHours).ToString("00"), (Mathf.FloorToInt((float)timeSpent.TotalMinutes)%60).ToString("00"), (Mathf.FloorToInt((float)timeSpent.TotalSeconds)%60).ToString("00"));
+		finishTimeText.text = "Поздравляем!\nВы прошли «Мою улицу»\nвсего за " + "<color=#30c59d>"+timeString+"</color>";
 	}
 
 	public void StartTheGame() {

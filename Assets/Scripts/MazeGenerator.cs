@@ -403,7 +403,7 @@ public class MazeGenerator : MonoBehaviour {
             sky.transform.position = new Vector3(0,3, 0);
         }
         uiController.ShowStartPanel();
-        print (MazeString);  // added to create String
+        // print (MazeString);  // added to create String
     }
 
     void PutPlayerInMaze (int j) {
@@ -460,7 +460,7 @@ public class MazeGenerator : MonoBehaviour {
                     CurrentTile = _tiletoTry.Pop();
                 }
             }
-            print("Maze Generated ...");
+            // print("Maze Generated ...");
             return Maze;
         }
    
