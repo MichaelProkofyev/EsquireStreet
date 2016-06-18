@@ -63,6 +63,18 @@ public class GameController : MonoBehaviour {
 		whiteFadeImage.color = new Color(1f, 1f, 1f, 0f);	
 	}
 
+	public void ShareFB () {
+		Application.ExternalCall("window.shareGameResultToFacebook", timeString);
+	}
+
+	public void ShareVK () {
+		Application.ExternalCall("window.shareGameResultToVK", timeString);
+	}
+
+	public void ShareTwitter () {
+		Application.ExternalCall("window.shareGameResultToTwitter", timeString);
+	}
+
 	// Use this for initialization
 	void Start () {
 	}

@@ -16,50 +16,42 @@ public class Social : MonoBehaviour {
 	public GameController gameController;
 
 	public void ShareScreenShot () {
-		if (!FB.IsInitialized) {
-			FB.Init(this.OnInitComplete);	
-		}else {
-		
 
-			FB.FeedShare(
-			link: new System.Uri("http://esquire.ru/mystreet3D"),
-			linkName: string.Format("Вы прошли «Мою улицу» всего за " + gameController.timeString),
-			linkCaption: "esquire.ru/mystreet3D",
-			linkDescription: "Выберитесь из перекопанной Москвы в игре Esquire",
-			picture: new System.Uri("http://i.imgur.com/FhPbOm5.png"),
-			callback: null
-			);
-		}
+
+		        Application.ExternalCall("window.shareGameResult", gameController.timeString);
+
+
+		// if (!FB.IsInitialized) {
+		// 	FB.Init(this.OnInitComplete);	
+		// }else {
+		// 	ShareFB();
+		// }
 		// else {
 		// 	StartCoroutine(AppScreenshotUpload());		
 		// }
 
 	}
 
-	private void OnInitComplete()
-        {
-            // this.Status = "Success - Check log for details";
-            // this.LastResponse = "Success Response: OnInitComplete Called\n";
-            Debug.Log("FB " + string.Format("IsLoggedIn='{0}' IsInitialized='{1}'", FB.IsLoggedIn, FB.IsInitialized));
-			// StartCoroutine(AppScreenshotUpload());
+	// private void OnInitComplete()
+    //     {
+    //         // this.Status = "Success - Check log for details";
+    //         // this.LastResponse = "Success Response: OnInitComplete Called\n";
+    //         // Debug.Log("FB " + string.Format("IsLoggedIn='{0}' IsInitialized='{1}'", FB.IsLoggedIn, FB.IsInitialized));
+	// 		// StartCoroutine(AppScreenshotUpload());
+	// 		ShareFB();
+			
+    //     }
 
-			FB.FeedShare(
-			link: new System.Uri("http://esquire.ru/mystreet3D"),
-			linkName: string.Format("Вы прошли «Мою улицу» всего за " + gameController.timeString),
-			linkCaption: "esquire.ru/mystreet3D",
-			linkDescription: "Выберитесь из перекопанной Москвы в игре Esquire",
-			picture: new System.Uri("http://i.imgur.com/c1dcAI1.png"),
-			callback: null
-			);   
-
-			// FB.ShareLink(
-			// 	new System.Uri("https://esquire.ru/"),
-			// 	"CONTENT TITLE",
-			// 	"DESCRIPTION",
-			// 	new System.Uri("http://imgur.com/" + "5L8Y9v6")
-				
-			// );
-        }
+		// private void ShareFB () {
+		// 	FB.FeedShare(
+		// 				link: new System.Uri("https://esquire.ru/mystreet3D"),
+		// 				linkName: string.Format("Вы прошли «Мою улицу» всего за " + gameController.timeString),
+		// 				linkCaption: "https://esquire.ru/mystreet3D",
+		// 				linkDescription: "Выберитесь из перекопанной Москвы в игре Esquire",
+		// 				picture: new System.Uri("http://i.imgur.com/c1dcAI1.png"),
+		// 				callback: null
+		// 				);   
+		// }
 
 
 // IEnumerator AppScreenshotUpload()
